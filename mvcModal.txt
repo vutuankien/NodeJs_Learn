@@ -1,0 +1,18 @@
+MVC  = Model View Controller
+
+mySQL
+Model                               View
+
+
+                Controller
+                Dispatcher
+                Routes
+                        
+                        
+                Web server
+
+
+                Browser
+
+Tương tác lấy dữ liệu qua Model
+Render giao diện qua View
