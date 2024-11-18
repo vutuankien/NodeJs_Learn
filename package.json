@@ -15,17 +15,18 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "lint-staged":{
-    "src/**/*.{js,json,scss}":"prettier --single-quote --trailing-comma all --write"
+  "lint-staged": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write --tab-width 4"
   },
-  "husky" : {
-    "hooks":{
-      "pre-commit" :"lint-staged"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
     }
   },
   "dependencies": {
     "express": "^4.21.1",
     "express-handlebars": "^8.0.1",
+    "mongoose": "^8.8.1",
     "morgan": "^1.10.0",
     "nodemon": "^3.1.7"
   },

@@ -12,3 +12,18 @@ h1 {
 h2 {
   color: #0095ff;
 }
+.card-course-item{
+  margin-top: 20px;
+}
+
+.card-title{
+  text-decoration: none;
+  color: black;
+}
+
+.card-text, .card-title{
+  height: 55px;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  white-space: nowrap;
+}
