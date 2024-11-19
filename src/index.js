@@ -5,16 +5,15 @@ const port = 3000;
 const path = require('path');
 const route = require('./routes/index');
 const handlebars = require('express-handlebars').engine;
-const db = require('./config/db/index')
+const db = require('./config/db/index');
 
 // Connect to DB
-db.connect()
-
-
+db.connect();
 
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //template engine
 app.engine(
     'hbs',
@@ -26,10 +25,7 @@ app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources/views'));
 // app.use(morgan('combined'))
 
-
 route(app);
-
-
 
 app.listen(port, () =>
     console.log(`Server is running on http://localhost:${port}`),
