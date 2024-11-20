@@ -45,6 +45,29 @@ class CoursesController {
             .then(() => res.redirect('/'))
             .catch(next); // Forward the error to error-handling middleware
     }
+
+    // [GET] /courses/:slug/edit
+    edit(req, res, next) {
+        Course.findById(req.params.id)
+            .lean()
+            .then((course) => res.render('courses/edit', { course }))
+            .catch(next);
+    }
+
+    // [PUT] /courses/:id
+    update(req, res, next) {
+        Course.findByIdAndUpdate(req.params.id, req.body, { new: true })
+            .lean()
+            .then(() => res.redirect('/me/stored/courses'))
+            .catch(next);
+    }
+
+    // [DELETE] /courses/:id
+    delete(req, res, next) {
+        Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
 }
 
 module.exports = new CoursesController();

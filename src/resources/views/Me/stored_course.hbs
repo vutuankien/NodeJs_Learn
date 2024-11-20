@@ -1,0 +1,81 @@
+<div class="mt-4">
+    <h1 class="text-black">Khóa học của tôi</h1>
+    <table class="table mt-4 table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Created At</th>
+                <th scope="col">Function</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each course}}
+            <tr>
+                <th scope="row">{{sum @index 1}}</th>
+                <td>{{this.name}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.createAt}}</td>
+                <td>
+                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Update</a>
+                    <button class="btn btn-link delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop">Delete</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Warning</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bạn có chắc muốn xóa nội dung trên không?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger confirm-delete">Confirm</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- hidden form --}}
+<form method="POST" id="delete-form"></form>
+
+
+<script>
+    const staticBackdrop = document.getElementById('staticBackdrop')
+    const deleteForm = document.getElementById('delete-form')
+    var courseId;
+    if (staticBackdrop) {
+        staticBackdrop.addEventListener('show.bs.modal', function(event){
+            
+            const button = event.relatedTarget
+            
+            courseId = button.getAttribute('data-id')
+            console.log(id)
+        })
+    }
+
+    const confirmBtn = document.querySelector('.confirm-delete')
+    console.log(confirmBtn)
+    
+    if (confirmBtn) {
+        confirmBtn.addEventListener('click', function(event){
+            event.preventDefault()
+            
+            deleteForm.action = `/courses/${courseId}?_method=DELETE`
+            deleteForm.submit()
+    })}
+
+
+</script>

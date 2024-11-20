@@ -7,21 +7,56 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/about">About</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/about" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        About
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/about">View</a></li>
+                        <li><a class="dropdown-item" href="/about/create">Create</a></li>
+                        <li><a class="dropdown-item" href="/about/update">Update</a></li>
+                        
+                    </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="/search">Search</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/news">News</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/courses" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Course
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/courses">View</a></li>
+                        <li><a class="dropdown-item" href="/courses/create">Create</a></li>
+                        <li><a class="dropdown-item" href="/courses/update">Update</a></li>
+                        
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/courses/create">Courses Create</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/about" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        News
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/news">View</a></li>
+                        <li><a class="dropdown-item" href="/news/create">Create</a></li>
+                        <li><a class="dropdown-item" href="/news/update">Update</a></li>
+                        
+                    </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/news/create">News Create</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="/about" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/me/stored/courses">Khoá học của tôi</a></li>
+                        <li><a class="dropdown-item" href="/me/stored/news">Bài viết của tôi</a></li>
+                    </ul>
                 </li>
+                
             </ul>
         </div>
     </div>
