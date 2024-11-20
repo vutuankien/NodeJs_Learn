@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const ShortUniqueId = require('short-unique-id');
 const slugify = require('slugify');
+const mongooseDelete = require('mongoose-delete');
 
 const Schema = mongoose.Schema;
 const uid = new ShortUniqueId({ length: 5 });
@@ -18,6 +19,10 @@ const CourseSchema = new Schema(
         timestamps: true,
     },
 );
+CourseSchema.plugin(mongooseDelete, {
+    overrideMethods: 'all',
+    deletedAt: true,
+});
 
 CourseSchema.pre('save', function (next) {
     let course = this;

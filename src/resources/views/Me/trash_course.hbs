@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div>
-        <h1 class="text-black">Khóa học của tôi</h1>
-        <a href="/me/trash/courses">Thùng rác</a>
+        <h1 class="text-black">Khóa học đã xóa</h1>
+        <a href="/me/stored/courses">Danh sách khóa học</a>
     </div>
 
 
@@ -10,7 +10,7 @@
             <tr>
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Name</th>
-                <th scope="col" class="text-center" style="width: 50%;">Description</th>
+                <th scope="col" class="text-center" style="width:50%">Description</th>
                 <th scope="col" colspan="2" class="text-center">Created At</th>
                 
             </tr>
@@ -23,16 +23,16 @@
                 <td>{{this.description}}</td>
                 <td>{{this.createAt}}</td>
                 <td>
-                    <a href="/courses/{{this._id}}/edit" class="btn btn-link">Update</a>
+                    <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}" >Khôi phục</a>
                     <button class="btn btn-link delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">Delete</button>
+                        data-bs-target="#staticBackdrop">Xóa vĩnh viễn</button>
                 </td>
             </tr>
 
             {{else}}
             <tr>
-                <td colspan="5" class="text-center">Bạn chưa đăng khóa học nào
-                    <a href="/courses/create" class="btn btn-link">Create Course</a>
+                <td colspan="5" class="text-center">Thùng rác trống
+                    <a href="/me/stored/courses" class="btn btn-link">Danh sách khóa học</a>
                 </td>
             </tr>
             {{/each}}
@@ -62,25 +62,32 @@
 
 {{!-- hidden form --}}
 <form method="POST" id="delete-form"></form>
+<form method="POST" id="restore-form"></form>
 
 
 <script>
     const staticBackdrop = document.getElementById('staticBackdrop')
     const deleteForm = document.getElementById('delete-form')
+    const restoreForm = document.getElementById('restore-form')
+    const deleteBtns = document.querySelectorAll('.delete-btn')
+    var restoredBtns = document.querySelectorAll('.btn-restore')
     var courseId;
+
+    //Xử lý lấy Id khóa học
     if (staticBackdrop) {
         staticBackdrop.addEventListener('show.bs.modal', function(event){
             
             const button = event.relatedTarget
             
             courseId = button.getAttribute('data-id')
-            console.log(id)
+            console.log(courseId)
         })
     }
 
+
+    //Xử lý soft delete khóa học
     const confirmBtn = document.querySelector('.confirm-delete')
     console.log(confirmBtn)
-    
     if (confirmBtn) {
         confirmBtn.addEventListener('click', function(event){
             event.preventDefault()
@@ -89,5 +96,24 @@
             deleteForm.submit()
     })}
 
+    //Xử lý restore khóa học
+    restoredBtns.forEach(item => {
+        item.addEventListener('click', function(event){
+            event.preventDefault()
+            const courseId = item.getAttribute('data-id')
+            console.log(courseId)
 
+            restoreForm.action = `/courses/${courseId}/restore?_method=PATCH`
+            restoreForm.submit()
+        })
+    })
+
+    //Xử lý xóa hoàn toàn khóa học
+    deleteBtns.forEach(item => {
+        item.addEventListener('click', function(event){
+            event.preventDefault()
+            deleteForm.action = `/courses/${courseId}/force?_method=DELETE`
+            deleteForm.submit()
+            console.log(courseId)
+        })})
 </script>
