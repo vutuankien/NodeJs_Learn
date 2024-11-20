@@ -1,1 +1,24 @@
-<h1>About Page</h1>
+<div class="mt-4">
+    <a href="/about/create" class="btn btn-primary mb-5">Create New Author</a>
+    <div class="row">
+        {{#each author}}
+        <div class="col-lg-4 col-sm-12">
+            <div class="card mb-3" style="max-width: 540px;">
+                <div class="row g-0">
+                    <div class="col-md-5">
+                        <a href="/about/{{this.slug}}"><img src={{this.image}} class="img-fluid rounded-start"
+                                style="height: 100%;" alt="..."></a>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h5 class="card-title">{{this.name}}</h5>
+                            <p class="card-text">{{this.quotes}}</p>
+                            <p class="card-text"><small class="text-muted">{{this.origin}}</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>

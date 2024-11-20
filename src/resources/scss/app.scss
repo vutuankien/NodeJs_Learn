@@ -1,29 +1,35 @@
 @import './_variables';
 
 .test {
-  font-size: 1rem;
-  width: 100px;
+    font-size: 1rem;
+    width: 100px;
 }
 
 h1 {
-  color: $redColor;
+    color: $redColor;
 }
 
 h2 {
-  color: #0095ff;
+    color: #0095ff;
 }
-.card-course-item{
-  margin-top: 20px;
-}
-
-.card-title{
-  text-decoration: none;
-  color: black;
+.card-course-item {
+    margin-top: 20px;
 }
 
-.card-text, .card-title{
-  height: 55px;
-  overflow: hidden; 
-  text-overflow: ellipsis; 
-  white-space: nowrap;
+.card-title {
+    text-decoration: none;
+    color: black;
+}
+
+.card-text,
+.card-title {
+    height: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }

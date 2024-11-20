@@ -1,0 +1,23 @@
+<div class="mt-4">
+    <h3>Đăng bài viết</h3>
+    <form method="POST" action="/news/store">
+        <div class="mb-3">
+            <label for="name" class="form-label">News Title</label>
+            <input type="text" class="form-control" id="title" name="title">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">News Description</label>
+            <input type="text" class="form-control" id="description" name="description">
+        </div>
+        <div class="mb-3">
+            <label for="videoId" class="form-label">News Author</label>
+            <input type="text" class="form-control" id="author" name="author">
+        </div>
+        <div class="mb-3">
+            <label for="videoId" class="form-label">News Image</label>
+            <input type="text" class="form-control" id="Image" name="image">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>

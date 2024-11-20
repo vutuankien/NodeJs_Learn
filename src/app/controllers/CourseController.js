@@ -12,7 +12,7 @@ class CoursesController {
                 }
                 res.render('courses/show', { course });
             })
-            .catch(next); // Forward the error to error-handling middleware
+            .catch(next);
     }
 
     // [GET] /courses/create
@@ -25,23 +25,25 @@ class CoursesController {
         // Log the body for debugging
         console.log(req.body);
 
-        if (!req.body.name || !req.body.slug) {
-            console.log(req.body.name, req.body.slug);
+        // Kiểm tra nếu tên khóa học bị thiếu
+        if (!req.body.name) {
+            console.log(req.body.name);
             return res.status(400).json({ error: 'Invalid course data' });
         }
 
-        // Create a new course instance
+        // Tạo mới một course instance
         const newCourse = new Course({
             name: req.body.name,
             description: req.body.description,
-            image: req.body.image,
-            slug: req.body.slug,
+            image: `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`,
             videoId: req.body.videoId,
         });
 
-        newCourse.save();
-
-        res.send('Successfully created new course');
+        // Lưu course vào cơ sở dữ liệu
+        newCourse
+            .save()
+            .then(() => res.redirect('/'))
+            .catch(next); // Forward the error to error-handling middleware
     }
 }
 
