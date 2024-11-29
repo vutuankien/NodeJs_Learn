@@ -22,28 +22,22 @@ class CoursesController {
 
     // [POST] /courses/store
     store(req, res, next) {
-        // Log the body for debugging
         console.log(req.body);
-
-        // Kiểm tra nếu tên khóa học bị thiếu
         if (!req.body.name) {
             console.log(req.body.name);
             return res.status(400).json({ error: 'Invalid course data' });
         }
-
-        // Tạo mới một course instance
         const newCourse = new Course({
             name: req.body.name,
             description: req.body.description,
             image: `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`,
             videoId: req.body.videoId,
+            level: req.body.level,
         });
-
-        // Lưu course vào cơ sở dữ liệu
         newCourse
             .save()
             .then(() => res.redirect('/'))
-            .catch(next); // Forward the error to error-handling middleware
+            .catch(next);
     }
 
     // [GET] /courses/:slug/edit
@@ -71,17 +65,37 @@ class CoursesController {
 
     //[PATCH] /courses/:id/restore
     restore(req, res, next) {
-        Course.restore({ _id: req.params.id })
-            .lean()
-            .then(() => res.redirect('back'))
-            .catch(next);
+        Course.restore({ _id: req.params.id }) // Lấy `id` từ params
+            .then(() => {
+                console.log(
+                    `Course with ID ${req.params.id} restored successfully`,
+                );
+                res.redirect('back');
+            })
+            .catch((err) => {
+                console.error('Error restoring course:', err);
+                next(err);
+            });
     }
 
     //[DELETE] /courses/:id/force
     destroy(req, res, next) {
-        Course.findByIdAndDelete({ _id: req.params.id })
+        Course.findByIdAndDelete(req.params.id)
             .then(() => res.redirect('back'))
             .catch(next);
+    }
+
+    //[POST] /courses/handle_form_actions
+    handleFormActions(req, res, next) {
+        switch (req.body.action) {
+            case 'delete':
+                Course.delete({ _id: { $in: req.body.courseIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next);
+                break;
+            default:
+                res.status(400).json({ message: 'Action is not allowed' });
+        }
     }
 }
 

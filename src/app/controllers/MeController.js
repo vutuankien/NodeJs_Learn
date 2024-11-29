@@ -3,17 +3,17 @@ const Course = require('../models/Course');
 class MeController {
     // [GET] /me/stored/courses
     storedCourses(req, res, next) {
-        Course.find({})
-            .lean()
-            .then((course) => {
-                if (!course) {
-                    // Handle case where the course is not found
-                    return res.status(404).send('Course not found');
-                }
-                // res.render('courses/show', { course });
-                res.render('Me/stored_course', { course });
+        Promise.all([
+            Course.find({}).lean().sortable(req),
+            Course.countDocumentsWithDeleted({ deleted: true }),
+        ])
+            .then(([course, deletedCount]) => {
+                res.render('Me/stored_course', {
+                    course: course,
+                    deletedCount: deletedCount,
+                });
             })
-            .catch(next); // Forward the error to error-handling middleware
+            .catch(next);
     }
 
     // [GET] /me/trash/courses

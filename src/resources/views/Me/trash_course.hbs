@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div>
         <h1 class="text-black">Khóa học đã xóa</h1>
-        <a href="/me/stored/courses">Danh sách khóa học</a>
+        <a href="/me/stored/courses"><i class="bi bi-card-checklist me-2"></i>Danh sách khóa học</a>
     </div>
 
 
@@ -10,22 +10,22 @@
             <tr>
                 <th scope="col" class="text-center">#</th>
                 <th scope="col" class="text-center">Name</th>
-                <th scope="col" class="text-center" style="width:50%">Description</th>
-                <th scope="col" colspan="2" class="text-center">Created At</th>
-                
+                <th scope="col" class="text-center">Level</th>
+                <th scope="col" colspan="2" class="text-center">Deleted At</th>
+
             </tr>
         </thead>
         <tbody>
             {{#each course}}
             <tr>
-                <th scope="row">{{sum @index 1}}</th>
-                <td>{{this.name}}</td>
-                <td>{{this.description}}</td>
-                <td>{{this.createAt}}</td>
+                <th scope="row" class="text-center">{{sum @index 1}}</th>
+                <td class="text-center">{{this.name}}</td>
+                <td class="text-center">{{this.level}}</td>
+                <td class="text-center">{{this.deletedAt}}</td>
                 <td>
-                    <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}" >Khôi phục</a>
-                    <button class="btn btn-link delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
-                        data-bs-target="#staticBackdrop">Xóa vĩnh viễn</button>
+                    <a href="" class="btn btn-success btn-restore" data-id="{{this._id}}"><i class="bi bi-box me-2"></i>Khôi phục</a>
+                    <button class="btn btn-danger delete-btn" data-id="{{this._id}}" data-bs-toggle="modal"
+                        data-bs-target="#staticBackdrop"><i class="bi bi-trash3 me-2"></i>Xóa vĩnh viễn</button>
                 </td>
             </tr>
 
@@ -66,54 +66,60 @@
 
 
 <script>
-    const staticBackdrop = document.getElementById('staticBackdrop')
-    const deleteForm = document.getElementById('delete-form')
-    const restoreForm = document.getElementById('restore-form')
-    const deleteBtns = document.querySelectorAll('.delete-btn')
-    var restoredBtns = document.querySelectorAll('.btn-restore')
-    var courseId;
+    const staticBackdrop = document.getElementById('staticBackdrop');
+    const deleteForm = document.getElementById('delete-form');
+    const restoreForm = document.getElementById('restore-form');
+    const deleteBtns = document.querySelectorAll('.delete-btn');
+    const restoredBtns = document.querySelectorAll('.btn-restore');
+    let courseId = null;
 
-    //Xử lý lấy Id khóa học
+    // Lấy courseId khi modal được hiển thị
     if (staticBackdrop) {
-        staticBackdrop.addEventListener('show.bs.modal', function(event){
-            
-            const button = event.relatedTarget
-            
-            courseId = button.getAttribute('data-id')
-            console.log(courseId)
-        })
+        staticBackdrop.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget; // Lấy nút kích hoạt modal
+            courseId = button.getAttribute('data-id'); // Lấy courseId từ data-id
+            console.log('Course ID for deletion:', courseId);
+        });
     }
 
-
-    //Xử lý soft delete khóa học
-    const confirmBtn = document.querySelector('.confirm-delete')
-    console.log(confirmBtn)
+    // Xử lý soft delete khóa học
+    const confirmBtn = document.querySelector('.confirm-delete');
     if (confirmBtn) {
-        confirmBtn.addEventListener('click', function(event){
-            event.preventDefault()
-            
-            deleteForm.action = `/courses/${courseId}?_method=DELETE`
-            deleteForm.submit()
-    })}
+        confirmBtn.addEventListener('click', function (event) {
+            event.preventDefault();
 
-    //Xử lý restore khóa học
+            if (!courseId) {
+                console.error('No course ID found for deletion');
+                return;
+            }
+
+            deleteForm.action = `/courses/${courseId}?_method=DELETE`;
+            deleteForm.submit();
+        });
+    }
+
+    // Xử lý restore khóa học
     restoredBtns.forEach(item => {
-        item.addEventListener('click', function(event){
-            event.preventDefault()
-            const courseId = item.getAttribute('data-id')
-            console.log(courseId)
+        item.addEventListener('click', function (event) {
+            event.preventDefault();
+            const currentCourseId = item.getAttribute('data-id'); // Lấy courseId từ nút hiện tại
+            console.log('Course ID for restore:', currentCourseId);
 
-            restoreForm.action = `/courses/${courseId}/restore?_method=PATCH`
-            restoreForm.submit()
-        })
-    })
+            restoreForm.action = `/courses/${currentCourseId}/restore?_method=PATCH`;
+            restoreForm.submit();
+        });
+    });
 
-    //Xử lý xóa hoàn toàn khóa học
+    // Xử lý xóa hoàn toàn khóa học
     deleteBtns.forEach(item => {
-        item.addEventListener('click', function(event){
-            event.preventDefault()
-            deleteForm.action = `/courses/${courseId}/force?_method=DELETE`
-            deleteForm.submit()
-            console.log(courseId)
-        })})
+        item.addEventListener('click', function (event) {
+            event.preventDefault();
+            const currentCourseId = item.getAttribute('data-id'); // Lấy courseId từ nút hiện tại
+            console.log('Course ID for force delete:', currentCourseId);
+
+            deleteForm.action = `/courses/${currentCourseId}/force?_method=DELETE`;
+            deleteForm.submit();
+        });
+    });
+
 </script>

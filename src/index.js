@@ -7,7 +7,7 @@ const route = require('./routes/index');
 const handlebars = require('express-handlebars').engine;
 const methodOverride = require('method-override');
 const db = require('./config/db/index');
-
+const SortMiddleware = require('./app/middlewares/SortMiddleware');
 // Connect to DB
 db.connect();
 
@@ -16,15 +16,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(methodOverride('_method'));
+app.use(SortMiddleware);
 
 //template engine
 app.engine(
     'hbs',
     handlebars({
         extname: '.hbs',
-        helpers: {
-            sum: (a, b) => a + b,
-        },
+        helpers: require('./helpers/handlebars'),
     }),
 );
 app.set('view engine', 'hbs');
